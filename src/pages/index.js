@@ -4,13 +4,18 @@ import { StaticImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import * as styles from "../components/index.module.css"
 
 const IndexPage = () => {
   return (
-    <Layout pageTitle="Welcome to Inghelbrecht Agency!">
-      <p>Lorem ipsum</p>
-    </Layout>
+    <main>
+      <Layout pageTitle="Welcome to Inghelbrecht Agency!">
+        <p>Lorem ipsum</p>
+        <StaticImage
+          alt="randomized unsplash image!"
+          src="../images/random.jpg"
+        />
+      </Layout>
+    </main>
   )
 }
 
