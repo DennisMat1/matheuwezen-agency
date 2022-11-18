@@ -8,7 +8,7 @@ import Seo from "../components/seo"
 const IndexPage = () => {
   return (
     <main>
-      <Layout pageTitle="Welcome to Inghelbrecht Agency!">
+      <Layout pageTitle="Welcome to Matheuwezen Agency!">
         <p>Lorem ipsum</p>
         <StaticImage
           alt="randomized unsplash image!"
