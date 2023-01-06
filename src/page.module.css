@@ -57,6 +57,21 @@
 	max-width: 600px;
 	margin: auto;
   }
+  mission-section {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 120px;
+  }
+  
+  .mission-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 50%;
+	max-width: 500px;
+	margin-left: 30px;
+  }
+  
   
   @media screen and (max-width: 1200px) {
 	.hero {
