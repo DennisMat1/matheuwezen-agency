@@ -1,29 +1,127 @@
 import * as React from "react"
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
-
 import Layout from "../components/layout"
-import Seo from "../components/seo"
+import { graphql } from "gatsby"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import Artist from "../components/artist"
+import {
+  header,
+  headerInfo,
+  headerPicture,
+  headerTitle,
+  CTA,
+  section,
+  subtitle,
+  artists,
+} from "../page.module.css"
+// IndexPage
 
-const IndexPage = () => {
+// Page Query
+
+// Imports
+
+const IndexPage = ({
+  data: {
+    wpPage: { homeFields },
+  },
+}) => {
+  const image = getImage(homeFields.picture.localFile)
+
   return (
-    <main>
-      <Layout pageTitle="Welcome to Matheuwezen Agency!">
-        <p>Lorem ipsum</p>
-        <StaticImage
-          alt="randomized unsplash image!"
-          src="../images/random.jpg"
-        />
-      </Layout>
-    </main>
+    <Layout>
+      <section className={header}>
+        <article className={headerInfo}>
+          <h1 className={headerTitle}>{homeFields.title}</h1>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: homeFields.description,
+            }}
+          />
+          <a
+            className={CTA}
+            target="__blank"
+            href={homeFields.callToAction.url}
+          >
+            {homeFields.callToAction.title}
+          </a>
+        </article>
+        <div>
+          <GatsbyImage
+            image={image}
+            className={headerPicture}
+            alt={homeFields.picture.altText}
+          />
+        </div>
+      </section>
+      <section className={section}>
+        <h2 className={subtitle}>Featured Artists</h2>
+        <p>
+          // description Lorem ipsum dolor sit amet, consectetur adipiscing
+          elit, sed doo eiusmod tempor incididunt ut labore et dolore magna
+          aliqua.
+        </p>
+        <div className={artists}>
+          {homeFields.artists.map(artist => {
+            return (
+              <Artist
+                slug={`artists/${artist.slug}`}
+                key={artist.id}
+                artist={artist}
+              />
+            )
+          })}
+        </div>
+      </section>
+    </Layout>
   )
 }
 
-/**
- * Head export to define metadata for the page
- *
- * See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
- */
-export const Head = () => <Seo title="Home" />
+// Page Query
+
+// Page Query
+
+export const query = graphql`
+  query {
+    wpPage(slug: { eq: "home" }) {
+      homeFields {
+        artists {
+          ... on WpArtist {
+            id
+            slug
+            artistMeta {
+              artistName
+              firstName
+              lastName
+              profilePicture {
+                altText
+                localFile {
+                  childImageSharp {
+                    gatsbyImageData(
+                      placeholder: BLURRED
+                      transformOptions: { grayscale: true }
+                    )
+                  }
+                }
+              }
+            }
+          }
+        }
+        callToAction {
+          title
+          url
+        }
+        title
+        description
+        picture {
+          altText
+          localFile {
+            childImageSharp {
+              gatsbyImageData(placeholder: BLURRED)
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 export default IndexPage
